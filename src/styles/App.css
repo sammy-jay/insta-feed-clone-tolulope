@@ -1,0 +1,56 @@
+.app {
+  background-color: #000;
+  min-height: 100vh;
+  padding: 0;
+  color: #fff;
+}
+
+.main-content {
+  padding-top: calc(56px + 90px);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: calc(49px + 2rem);
+  max-width: 470px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Container for better content alignment */
+.content-container {
+  max-width: 470px;
+  margin: 0 auto;
+  margin-top: 2.5rem;
+  width: 100%;
+}
+
+/* Remove all media queries that change max-width */
+
+.feed-mode {
+  padding: 0;
+  height: 100vh;
+}
+
+.feed-mode .content-container {
+  max-width: 470px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.bottom-nav.feed-mode {
+  background: transparent;
+  z-index: 100;
+}
+
+.bottom-nav.feed-mode .nav-item {
+  color: #fff;
+}
+
+.bottom-nav.feed-mode .nav-item.active {
+  color: #f7ff00;
+} 

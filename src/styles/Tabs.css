@@ -1,0 +1,58 @@
+.tabs-container {
+  padding: 0 1rem;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  position: relative;
+}
+
+.tab {
+  all: unset;
+  padding: 0.875rem 0.5rem;
+  cursor: pointer;
+  position: relative;
+  min-width: 60px;
+}
+
+.tab-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.tab.active .tab-text {
+  color: #fff;
+}
+
+.tab-indicator-container {
+  position: relative;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-indicator {
+  position: absolute;
+  height: 2px;
+  background-color: #f7ff00;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.tab-indicator.home {
+  left: calc(50% - 62px);
+  width: 44px;
+}
+
+.tab-indicator.foryou {
+  left: calc(50% + 18px);
+  width: 52px;
+} 

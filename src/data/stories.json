@@ -1,0 +1,46 @@
+{
+  "stories": [
+    {
+      "id": "1",
+      "username": "You",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+      "isOwn": true
+    },
+    {
+      "id": "2",
+      "username": "john.doe",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+      "hasStory": true
+    },
+    {
+      "id": "3",
+      "username": "photo.art",
+      "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150",
+      "hasStory": true
+    },
+    {
+      "id": "4",
+      "username": "travel.lens",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150",
+      "hasStory": true
+    },
+    {
+      "id": "5",
+      "username": "creative",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "hasStory": true
+    },
+    {
+      "id": "6",
+      "username": "minimal",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150",
+      "hasStory": true
+    },
+    {
+      "id": "7",
+      "username": "design.daily",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150",
+      "hasStory": true
+    }
+  ]
+} 

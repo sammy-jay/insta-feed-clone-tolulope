@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "id": 2,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "photo.daily",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+      "caption": "Perfect light through the trees 🌿",
+      "music": "Nature Sounds - Peaceful",
+      "likes": 2445,
+      "comments": 125,
+      "saved": false
+    },
+    {
+      "id": 4,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "urban.shots",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "City lights at dusk 🌆",
+      "music": "Urban Dreams - City Beats",
+      "likes": 1897,
+      "comments": 76,
+      "saved": false
+    },
+    {
+      "id": 6,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "minimal.art",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150",
+      "caption": "Simplicity is the ultimate sophistication ⚪️",
+      "music": "Minimal Beats - Pure",
+      "likes": 2789,
+      "comments": 92,
+      "saved": false
+    },
+    {
+      "id": 7,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "landscape.love",
+      "avatar": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=150",
+      "caption": "Stunning mountain view 🏔️",
+      "music": "Nature Sounds - Calm",
+      "likes": 1500,
+      "comments": 50,
+      "saved": false
+    },
+    {
+      "id": 9,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "foodie",
+      "avatar": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=150",
+      "caption": "Delicious food 🍽️",
+      "music": "Food Sounds - Yum",
+      "likes": 3000,
+      "comments": 100,
+      "saved": false
+    }
+  ]
+} 

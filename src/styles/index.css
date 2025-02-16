@@ -1,0 +1,42 @@
+body {
+  background-color: #000; /* Set background to black */
+  color: #f7ff00; /* Set text color to yellow */
+}
+
+/* Add to existing styles */
+* {
+  outline: none !important;
+  border: none !important;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button, 
+div[role="button"] {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+}
+
+button:focus,
+div:focus {
+  outline: none !important;
+}
+
+::selection {
+  background: rgba(247, 255, 0, 0.2);
+  color: #000; /* Change selection text color to black */
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+a {
+  color: #f7ff00; /* Set link color to yellow */
+  text-decoration: none; /* Remove underline from links */
+}
+
+a:hover {
+  color: #f7ff00; /* Ensure hover color is also yellow */
+} 

@@ -1,0 +1,103 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "username": "akmalngrh",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop",
+      "isVerified": true,
+      "timeAgo": "1 mins ago",
+      "images": [
+        "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800&h=800&fit=crop",
+        "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800&h=800&fit=crop",
+        "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800&h=800&fit=crop"
+      ],
+      "likes": 349,
+      "comments": {
+        "count": 760,
+        "items": [
+          {
+            "username": "randykchtr",
+            "text": "This is absolutely stunning! The composition is perfect 📸✨",
+            "likes": 24,
+            "timeAgo": "2h"
+          }
+        ]
+      },
+      "caption": "When life gives you limes, arrange them in a zesty flatlay and create a 'lime-light' masterpiece! 🍋✨",
+      "location": "Bekasi"
+    },
+    {
+      "id": 2,
+      "username": "photoart.daily",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+      "isVerified": true,
+      "timeAgo": "3 hours ago",
+      "images": [
+        "https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?w=800&h=800&fit=crop"
+      ],
+      "likes": 2453,
+      "comments": {
+        "count": 127,
+        "items": [
+          {
+            "username": "creativeminds",
+            "text": "The colors in this are absolutely mesmerizing! 🎨",
+            "likes": 45,
+            "timeAgo": "1h"
+          }
+        ]
+      },
+      "caption": "Exploring the boundaries between light and shadow. Sometimes the most powerful images are the simplest ones.",
+      "location": "Art Studio 73"
+    },
+    {
+      "id": 3,
+      "username": "travelscape",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+      "isVerified": false,
+      "timeAgo": "5 hours ago",
+      "images": [
+        "https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=800&h=800&fit=crop",
+        "https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=800&h=800&fit=crop"
+      ],
+      "likes": 1892,
+      "comments": {
+        "count": 89,
+        "items": [
+          {
+            "username": "wanderlust",
+            "text": "This place looks magical! Adding to my travel list 🌟",
+            "likes": 32,
+            "timeAgo": "3h"
+          }
+        ]
+      },
+      "caption": "Found this hidden gem while exploring the backstreets of Kyoto. The way the morning light filters through the bamboo grove creates such a peaceful atmosphere.",
+      "location": "Arashiyama, Kyoto"
+    },
+    {
+      "id": 4,
+      "username": "minimal.lens",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
+      "isVerified": true,
+      "timeAgo": "8 hours ago",
+      "images": [
+        "https://images.unsplash.com/photo-1682686581030-7fa4ea2b96c3?w=800&h=800&fit=crop"
+      ],
+      "likes": 3211,
+      "comments": {
+        "count": 156,
+        "items": [
+          {
+            "username": "design.daily",
+            "text": "The minimalism here is just perfect 👌",
+            "likes": 67,
+            "timeAgo": "4h"
+          }
+        ]
+      },
+      "caption": "Less is more. Finding beauty in simplicity and negative space.",
+      "location": "Design District"
+    }
+  ]
+} 
