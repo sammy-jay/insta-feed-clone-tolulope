@@ -1,64 +1,119 @@
 {
   "items": [
     {
+      "id": 1,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
+      "username": "user1",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "Beautiful sunset over the mountains, a perfect end to a long day spent exploring nature's wonders.",
+      "likes": 120,
+      "comments": [
+        { "user": "commenter1", "text": "Amazing view!" },
+        { "user": "commenter2", "text": "So beautiful!" }
+      ],
+      "saved": false
+    },
+    {
       "id": 2,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "photo.daily",
-      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
-      "caption": "Perfect light through the trees 🌿",
-      "music": "Nature Sounds - Peaceful",
-      "likes": 2445,
-      "comments": 125,
+      "username": "user2",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A lovely day at the beach, where the sun kisses the ocean and the waves dance to the rhythm of the shore.",
+      "likes": 200,
+      "comments": [
+        { "user": "commenter3", "text": "Wish I was there!" }
+      ],
+      "saved": false
+    },
+    {
+      "id": 3,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "username": "user3",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A serene forest path, inviting you to take a stroll and immerse yourself in the tranquility of nature.",
+      "likes": 150,
+      "comments": [],
       "saved": false
     },
     {
       "id": 4,
       "type": "image",
-      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "urban.shots",
+      "url": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=800",
+      "username": "user4",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "City lights at dusk 🌆",
-      "music": "Urban Dreams - City Beats",
-      "likes": 1897,
-      "comments": 76,
+      "caption": "Capturing the essence of city life, where every corner tells a story and every moment is a memory waiting to be made.",
+      "likes": 300,
+      "comments": [],
+      "saved": false
+    },
+    {
+      "id": 5,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user5",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A breathtaking view of the mountains at dawn, where the first light of day paints the landscape in hues of gold and pink.",
+      "likes": 250,
+      "comments": [],
       "saved": false
     },
     {
       "id": 6,
       "type": "image",
-      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "minimal.art",
-      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150",
-      "caption": "Simplicity is the ultimate sophistication ⚪️",
-      "music": "Minimal Beats - Pure",
-      "likes": 2789,
-      "comments": 92,
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user6",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "Exploring the vibrant streets of the city, where art and culture come alive in every corner.",
+      "likes": 180,
+      "comments": [],
       "saved": false
     },
     {
       "id": 7,
       "type": "image",
-      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "landscape.love",
-      "avatar": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=150",
-      "caption": "Stunning mountain view 🏔️",
-      "music": "Nature Sounds - Calm",
-      "likes": 1500,
-      "comments": 50,
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user7",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A cozy café on a rainy day, perfect for sipping coffee and enjoying a good book.",
+      "likes": 220,
+      "comments": [],
+      "saved": false
+    },
+    {
+      "id": 8,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user8",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A stunning sunset over the ocean, where the sky meets the sea in a beautiful display of colors.",
+      "likes": 300,
+      "comments": [],
       "saved": false
     },
     {
       "id": 9,
       "type": "image",
-      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "foodie",
-      "avatar": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=150",
-      "caption": "Delicious food 🍽️",
-      "music": "Food Sounds - Yum",
-      "likes": 3000,
-      "comments": 100,
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user9",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A tranquil lake surrounded by mountains, reflecting the beauty of nature in its still waters.",
+      "likes": 350,
+      "comments": [],
+      "saved": false
+    },
+    {
+      "id": 10,
+      "type": "image",
+      "url": "https://images.unsplash.com/photo-1601758123927-1c1c1c1c1c1c?w=800",
+      "username": "user10",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+      "caption": "A beautiful garden in full bloom, showcasing the vibrant colors of spring.",
+      "likes": 400,
+      "comments": [],
       "saved": false
     }
   ]
-} 
+}

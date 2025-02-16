@@ -1,185 +1,156 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Element, scroller } from 'react-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment, FaShare } from 'react-icons/fa';
-import { BsBookmark, BsBookmarkFill, BsMusicNote } from 'react-icons/bs';
-import { IoMusicalNotes, IoVolumeMedium, IoVolumeOff } from 'react-icons/io5';
-import { RiShareForwardLine, RiWhatsappLine } from 'react-icons/ri';
-import { FaTelegramPlane, FaRegCommentDots } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
+import feedData from '../data/feed.json'; // Ensure this path is correct
 import '../styles/Feed.css';
-import feedData from '../data/feed.json';
 
 export const Feed = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [volume, setVolume] = useState(0);
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [newComment, setNewComment] = useState('');
+  const [showComments, setShowComments] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const items = feedData.items.filter(item => item.type === 'image'); // Ensure only images are processed
-  const currentItem = items[currentIndex];
+  const items = feedData.items; // Allow both images and videos
 
-  let lastScrollTime = 0;
+  const scrollToIndex = (index: number) => {
+    setCurrentIndex(index);
+    scroller.scrollTo(`item-${index}`, {
+      duration: 500,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
+  };
 
-  const handleScroll = (e: WheelEvent | TouchEvent | { deltaY: number }) => {
-    const now = Date.now();
-    if (now - lastScrollTime < 100) return; // Debounce: ignore if last scroll was less than 100ms ago
-    lastScrollTime = now;
+  const handleScroll = (e: WheelEvent) => {
+    e.preventDefault(); // Prevent default scrolling behavior
+    const deltaY = e.deltaY;
 
-    // Prevent default scrolling behavior
-    if ('preventDefault' in e) {
-      e.preventDefault();
+    if (deltaY > 0 && currentIndex < items.length - 1) {
+      scrollToIndex(currentIndex + 1);
+    } else if (deltaY < 0 && currentIndex > 0) {
+      scrollToIndex(currentIndex - 1);
     }
+  };
 
-    // Determine deltaY based on the event type
-    const deltaY = 'deltaY' in e ? (e as WheelEvent).deltaY : 
-                   'changedTouches' in e ? (e as TouchEvent).changedTouches[0].clientY : 
-                   (e as { deltaY: number }).deltaY;
-
-    // Set a threshold for scrolling
-    const threshold = 50; // Adjust this value as needed
-
-    // Check if at the beginning or end of the list
-    if (currentIndex === 0 && deltaY < 0) {
-      return; // Ignore scroll up if at the start
-    }
-    if (currentIndex === items.length - 1 && deltaY > 0) {
-      return; // Ignore scroll down if at the end
-    }
-
-    // Ensure currentIndex stays within bounds
-    if (deltaY > threshold && currentIndex < items.length - 1) {
-        setDirection(1); // Set direction for down scroll
-        setCurrentIndex(prev => Math.min(prev + 1, items.length - 1)); // Prevent going out of bounds
-    } else if (deltaY < -threshold && currentIndex > 0) {
-        setDirection(-1); // Set direction for up scroll
-        setCurrentIndex(prev => Math.max(prev - 1, 0)); // Prevent going out of bounds
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      items[currentIndex].comments.push({ user: 'You', text: newComment });
+      setNewComment('');
     }
   };
 
   useEffect(() => {
     const container = containerRef.current;
-
-    const wheelHandler = (e: WheelEvent) => handleScroll(e);
-    const touchStartHandler = (e: TouchEvent) => {
-      setStartY(e.touches[0].clientY);
-      const touchMoveHandler = (moveEvent: TouchEvent) => {
-        handleSwipeMove(moveEvent);
-      };
-      document.addEventListener('touchmove', touchMoveHandler);
-
-      // Cleanup function to remove touchmove listener
-      return () => {
-        document.removeEventListener('touchmove', touchMoveHandler);
-      };
-    };
-
     if (container) {
-      container.addEventListener('wheel', wheelHandler, { passive: false });
-      container.addEventListener('touchstart', touchStartHandler);
+      container.addEventListener('wheel', handleScroll, { passive: false });
       return () => {
-        container.removeEventListener('wheel', wheelHandler);
-        container.removeEventListener('touchstart', touchStartHandler);
+        container.removeEventListener('wheel', handleScroll);
       };
     }
-  }, [currentIndex, items.length]);
-
-  const toggleSound = () => {
-    if (isMuted) {
-      setVolume(1);
-      setIsMuted(false);
-    } else {
-      setVolume(0);
-      setIsMuted(true);
-    }
-  };
-
-  const handleSwipeMove = (e: TouchEvent) => {
-    const deltaY = e.touches[0].clientY - startY; // Calculate the difference in Y direction
-    if (Math.abs(deltaY) > 30) { // Adjust threshold as needed
-      handleScroll({ deltaY }); // Pass the deltaY to handleScroll
-    }
-  };
+  }, [currentIndex]);
 
   return (
-    <div className="feed-wrapper" style={{ padding: '20px' }}>
+    <div className="feed-wrapper">
       <div className="feed-container" ref={containerRef}>
         <AnimatePresence initial={false} mode="wait">
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            initial={{ y: direction > 0 ? '100%' : '-100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: direction > 0 ? '-100%' : '100%', opacity: 0 }}
-            transition={{ duration: 0.1, ease: 'linear' }}
-            className="feed-item"
-          >
-            <img 
-              src={currentItem.url}
-              alt={currentItem.caption}
-              className="feed-media"
-            />
-            <div className="feed-overlay">
-              <div className="feed-user-info">
-                <span className="feed-username">{currentItem.username}</span>
-              </div>
-              <div className="feed-caption">{currentItem.caption}</div>
-            </div>
-            <div className="feed-actions">
-              <motion.button
-                className="action-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsLiked(!isLiked)}
+          {items.map((item, index) => (
+            <Element name={`item-${index}`} key={index}>
+              <motion.div
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -100, opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                className="feed-item"
               >
-                {isLiked ? <AiFillHeart className="liked" /> : <AiOutlineHeart />}
-                <span>{currentItem.likes}</span>
-              </motion.button>
-
-              <motion.button
-                className="action-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <FaRegComment />
-                <span>{currentItem.comments}</span>
-              </motion.button>
-
-              <motion.button
-                className="action-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <RiShareForwardLine />
-                <div className="share-options">
-                  <RiWhatsappLine />
-                  <FaTelegramPlane />
+                <img 
+                  src={item.url}
+                  alt={item.caption}
+                  className="feed-media"
+                />
+                <div className="feed-overlay">
+                  <div className="feed-user-info">
+                    <img src={item.avatar} alt={item.username} className="feed-avatar" />
+                    <div className="feed-user-details">
+                      <span className="feed-username">{item.username}</span>
+                      <span className="feed-caption">{item.caption}</span>
+                    </div>
+                  </div>
                 </div>
-              </motion.button>
+                <div className="feed-actions">
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setIsLiked(!isLiked)}
+                  >
+                    {isLiked ? <AiFillHeart className="liked" /> : <AiOutlineHeart />}
+                    <span>{item.likes}</span>
+                  </motion.button>
 
-              <motion.button
-                className="action-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsSaved(!isSaved)}
-              >
-                {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
-              </motion.button>
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setShowComments(!showComments)}
+                  >
+                    <FaRegComment />
+                    <span>{item.comments.length}</span>
+                  </motion.button>
 
-              <motion.button
-                className="action-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <BsThreeDots />
-              </motion.button>
-            </div>
-          </motion.div>
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setIsSaved(!isSaved)}
+                  >
+                    {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
+                  </motion.button>
+
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <FaShare />
+                  </motion.button>
+                </div>
+                <AnimatePresence>
+                  {showComments && (
+                    <motion.div
+                      className="comments-overlay"
+                      initial={{ y: '100%' }}
+                      animate={{ y: 0 }}
+                      exit={{ y: '100%' }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="comments-section">
+                        {item.comments.map((comment, idx) => (
+                          <div key={idx} className="comment">
+                            <strong>{comment.user}:</strong> {comment.text}
+                          </div>
+                        ))}
+                        <form onSubmit={handleCommentSubmit} className="comment-form">
+                          <input 
+                            type="text" 
+                            value={newComment} 
+                            onChange={(e) => setNewComment(e.target.value)} 
+                            placeholder="Add a comment..." 
+                            className="comment-input"
+                          />
+                          <button type="submit" className="comment-submit">Post</button>
+                        </form>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            </Element>
+          ))}
         </AnimatePresence>
 
         <div className="feed-progress">
