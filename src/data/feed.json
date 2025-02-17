@@ -4,13 +4,13 @@
       "id": 1,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "user1",
+      "username": "emily.adventures",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "Beautiful sunset over the mountains, a perfect end to a long day spent exploring nature's wonders.",
-      "likes": 120,
+      "caption": "Lost in the moment at Yosemite 🏔️ The way the light hits Half Dome at sunset is pure magic! Who else feels most alive in the mountains? #NatureLover #YosemiteNationalPark #AdventureTime",
+      "likes": 1542,
       "comments": [
-        { "user": "commenter1", "text": "Amazing view!" },
-        { "user": "commenter2", "text": "So beautiful!" }
+        { "user": "mountain_wanderer", "text": "This view never gets old! 😍" },
+        { "user": "photography.life", "text": "The lighting is absolutely perfect! What camera did you use?" }
       ],
       "saved": false
     },
@@ -18,12 +18,13 @@
       "id": 2,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "user2",
+      "username": "alex.captures",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "A lovely day at the beach, where the sun kisses the ocean and the waves dance to the rhythm of the shore.",
-      "likes": 200,
+      "caption": "Sunday vibes in Bali 🌊 Nothing beats the sound of waves and the feeling of sand between your toes. Found this hidden beach after a 2-hour hike and it was totally worth it! #BaliLife #IslandVibes #Paradise",
+      "likes": 2389,
       "comments": [
-        { "user": "commenter3", "text": "Wish I was there!" }
+        { "user": "wanderlust_soul", "text": "Adding this to my bucket list! 🏖️" },
+        { "user": "travel.diary", "text": "The colors in this shot are incredible! 🌅" }
       ],
       "saved": false
     },
@@ -31,22 +32,28 @@
       "id": 3,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
-      "username": "user3",
+      "username": "sophia.style",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "A serene forest path, inviting you to take a stroll and immerse yourself in the tranquility of nature.",
-      "likes": 150,
-      "comments": [],
+      "caption": "City lights and late nights 🌃 Sometimes you need to get lost in the city to find yourself. NYC, you never cease to amaze me! #CityLife #NYCMoments #UrbanExplorer",
+      "likes": 3756,
+      "comments": [
+        { "user": "nyc_lover", "text": "This spot has the best skyline view! 🗽" },
+        { "user": "night.photography", "text": "The mood in this shot is everything! 🌆" }
+      ],
       "saved": false
     },
     {
       "id": 4,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=800",
-      "username": "user4",
+      "username": "david.creates",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "Capturing the essence of city life, where every corner tells a story and every moment is a memory waiting to be made.",
-      "likes": 300,
-      "comments": [],
+      "caption": "Morning coffee hits different when you're chasing your dreams ☕️ Grateful for another day to create, inspire, and make magic happen. What's your morning ritual? #CreativeLife #MorningVibes #CoffeeFirst",
+      "likes": 1897,
+      "comments": [
+        { "user": "coffee.addict", "text": "That latte art though! 👌" },
+        { "user": "morning.person", "text": "Nothing better than starting the day right! ✨" }
+      ],
       "saved": false
     }
   ]
