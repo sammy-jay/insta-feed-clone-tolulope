@@ -226,35 +226,35 @@ export const Feed = ({ onClose }: FeedProps) => {
             <div
               key={item.id}
               className={`feed-item ${isTransitioning ? 'transitioning' : ''}`}
-              style={{
-                height: '100vh',
-                scrollSnapAlign: 'center',
-                scrollSnapStop: 'always'
-              }}
             >
-              <img 
-                src={item.url}
-                alt={item.caption}
-                className="feed-media"
-              />
+              <div className="feed-media-container">
+                <img 
+                  src={item.url}
+                  alt={item.caption}
+                  className="feed-media"
+                  loading="lazy"
+                />
+              </div>
               <div className="feed-overlay">
                 <div className="feed-user-info">
-                  <img src={item.avatar} alt={item.username} className="feed-avatar" />
-                  <div className="feed-user-details">
+                  <div className="feed-user-meta">
+                    <img src={item.avatar} alt={item.username} className="feed-avatar" />
                     <span className="feed-username">{item.username}</span>
-                    <div className="feed-caption-container">
-                      <div className={`feed-caption ${!expandedCaptions.has(item.id) ? 'truncated' : ''}`}>
-                        {item.caption}
-                      </div>
-                      {item.caption.length > 100 && (
-                        <button 
-                          className="caption-more"
-                          onClick={() => toggleCaption(item.id)}
-                        >
-                          {expandedCaptions.has(item.id) ? 'less' : 'more'}
-                        </button>
-                      )}
+                  </div>
+                </div>
+                <div className="feed-caption-wrapper">
+                  <div className="feed-caption-container">
+                    <div className={`feed-caption ${!expandedCaptions.has(item.id) ? 'truncated' : ''}`}>
+                      {item.caption}
                     </div>
+                    {item.caption.length > 100 && (
+                      <button 
+                        className="caption-more"
+                        onClick={() => toggleCaption(item.id)}
+                      >
+                        {expandedCaptions.has(item.id) ? 'less' : 'more'}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

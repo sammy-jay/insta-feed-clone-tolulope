@@ -49,10 +49,10 @@ body {
   transform-style: preserve-3d;
   will-change: transform;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .feed-content {
@@ -84,8 +84,10 @@ body {
 
 .feed-media {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  position: absolute;
+  inset: 0;
 }
 
 .feed-overlay {
@@ -93,11 +95,12 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.2rem;
-  background: linear-gradient(to top, 
+  padding: 20px 16px;
+  background: linear-gradient(
+    to top,
     rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.6) 50%,
-    transparent 100%
+    rgba(0, 0, 0, 0.6) 30%,
+    transparent 60%
   );
   z-index: 20;
 }
@@ -224,31 +227,28 @@ body {
 .feed-user-info {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 12px 16px 8px;
 }
 
-.feed-user-details {
+.feed-user-meta {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
 }
 
-.feed-username {
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 18px;
+.feed-caption-wrapper {
+  padding: 0 16px 12px;
+  width: 100%;
 }
 
 .feed-caption-container {
   position: relative;
-  display: inline;
+  display: block;
+  width: 100%;
 }
 
 .feed-caption {
   font-size: 14px;
   color: #fff;
-  margin-top: 4px;
   line-height: 18px;
   display: inline;
 }
@@ -298,24 +298,64 @@ body {
 
 /* Add responsive styles */
 @media (max-width: 768px) {
-  .feed-actions {
-    right: 0.15rem;
-    bottom: 5rem;
-    gap: 0.15rem;
+  .feed-item {
+    height: calc(100vh - env(safe-area-inset-bottom));
   }
-  
+
+  .feed-media {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .feed-overlay {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 70px);
+  }
+
+  .feed-actions {
+    bottom: calc(env(safe-area-inset-bottom) + 90px);
+    right: 8px;
+  }
+
+  .feed-user-info {
+    padding: 12px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  }
+
   .action-button {
     font-size: 1.5rem;
   }
-  
-  .feed-overlay {
-    padding: 0.5rem 1rem;
+}
+
+/* iPhone notch handling */
+@supports (padding: max(0px)) {
+  .feed-item {
+    height: calc(100vh - max(0px, env(safe-area-inset-bottom)));
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
-  
-  .sound-control {
-    bottom: 1rem;
-    right: 1rem;
-  }
+}
+
+/* Ensure proper aspect ratio */
+.feed-media-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Add fade effect at bottom */
+.feed-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.6) 30%,
+    transparent 60%
+  );
+  padding: 20px 16px;
 }
 
 /* Add these styles */
@@ -377,12 +417,6 @@ body {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-}
-
-.feed-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .comments-section {
