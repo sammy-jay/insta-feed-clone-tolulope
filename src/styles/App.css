@@ -3,6 +3,9 @@
   min-height: 100vh;
   padding: 0;
   color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content {
@@ -12,6 +15,9 @@
   padding-bottom: calc(49px + 2rem);
   max-width: 470px;
   margin: 0 auto;
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
 }
 
 @media (min-width: 640px) {
@@ -27,6 +33,9 @@
   margin: 0 auto;
   margin-top: 2.5rem;
   width: 100%;
+  padding-bottom: 70px; /* Add space for bottom nav */
+  overflow-y: auto;
+  height: 100%;
 }
 
 /* Remove all media queries that change max-width */

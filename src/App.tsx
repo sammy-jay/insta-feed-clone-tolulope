@@ -1,22 +1,32 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+/* eslint-disable */
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Feed } from './pages/Feed';
-import { Header } from './components/Header'
-import { Post } from './components/Post'
-import { BottomNav } from './components/BottomNav'
 import './styles/App.css'
-import postsData from './data/posts.json'
-import storiesData from './data/stories.json'
+
+function NavigationWrapper() {
+  const navigate = useNavigate();
+  
+  const handleClose = () => {
+    navigate('/');
+    // If you're using Zustand or similar for tab state:
+    // setActiveTab('home');
+  };
+
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/feed" element={<Feed onClose={handleClose} />} />
+    </Routes>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/feed" element={<Feed />} />
-      </Routes>
+      <NavigationWrapper />
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

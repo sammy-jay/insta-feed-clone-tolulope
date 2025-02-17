@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { FiMoreHorizontal, FiShare, FiShare2 } from 'react-icons/fi';
-import { AiOutlineHeart } from 'react-icons/ai';
-import { FaRegComment } from 'react-icons/fa';
+import { FiMoreHorizontal, FiShare2 } from 'react-icons/fi';
 import { BsBookmark, BsCheckCircleFill, BsBookmarkFill } from 'react-icons/bs';
 import '../styles/Post.css';
 import { motion } from 'framer-motion';
@@ -43,7 +41,7 @@ export const Post = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [reaction, setReaction] = useState<string | null>(null);
+  const [_, setReaction] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [startX, setStartX] = useState(0);
 
