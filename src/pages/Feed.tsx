@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation, PanInfo } from 'framer-motion';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment, FaShare } from 'react-icons/fa';
@@ -55,7 +55,10 @@ export const Feed = ({ onClose }: FeedProps) => {
   const [expandedCaptions, setExpandedCaptions] = useState<Set<string>>(new Set());
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [_, setIsTransitioning] = useState(false);
+  const controls = useAnimation();
+  const dragConstraintsRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const fetchMoreData = () => {
     if (items.length >= 50 || isLoading) {
@@ -108,21 +111,35 @@ export const Feed = ({ onClose }: FeedProps) => {
     setTouchEnd(e.targetTouches[0].clientY);
   };
 
-  const handleTouchEnd = () => {
+  const handleScroll = async (direction: number) => {
     if (!containerRef.current) return;
+    
+    const nextIndex = currentIndex + direction;
+    if (nextIndex >= 0 && nextIndex < items.length) {
+      setIsTransitioning(true);
+      
+      await controls.start({
+        y: -nextIndex * window.innerHeight,
+        transition: {
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+          mass: 0.8
+        }
+      });
+      
+      setCurrentIndex(nextIndex);
+      setIsTransitioning(false);
+    }
+  };
 
+  const handleTouchEnd = () => {
     const diff = touchStart - touchEnd;
-    const threshold = window.innerHeight * 0.2; // 20% of screen height
+    const threshold = window.innerHeight * 0.2;
 
     if (Math.abs(diff) > threshold) {
-      setIsTransitioning(true);
       const direction = diff > 0 ? 1 : -1;
-      const nextIndex = currentIndex + direction;
-      
-      if (nextIndex >= 0 && nextIndex < items.length) {
-        const targetScroll = nextIndex * window.innerHeight;
-        smoothScrollTo(containerRef.current, targetScroll, 300);
-      }
+      handleScroll(direction);
     }
   };
 
@@ -140,29 +157,6 @@ export const Feed = ({ onClose }: FeedProps) => {
       };
     }
   }, [touchStart, touchEnd, currentIndex, items.length]);
-
-  const smoothScrollTo = (element: HTMLElement, to: number, duration: number) => {
-    const start = element.scrollTop;
-    const change = to - start;
-    const startTime = performance.now();
-
-    const animateScroll = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      const easeOutExpo = 1 - Math.pow(2, -10 * progress);
-      
-      element.scrollTop = start + change * easeOutExpo;
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        setIsTransitioning(false);
-      }
-    };
-
-    requestAnimationFrame(animateScroll);
-  };
 
   const handleLike = (id: string) => {
     const isCurrentlyLiked = useFeedStore.getState().likes[id] || false;
@@ -193,8 +187,38 @@ export const Feed = ({ onClose }: FeedProps) => {
     setExpandedCaptions(newExpanded);
   };
 
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const velocity = info.velocity.y;
+    const offset = info.offset.y;
+    
+    // Determine direction based on velocity or offset
+    const direction = Math.abs(velocity) > 20 
+      ? -Math.sign(velocity) 
+      : -Math.sign(offset);
+    
+    if (Math.abs(offset) > window.innerHeight * 0.2 || Math.abs(velocity) > 200) {
+      const nextIndex = currentIndex + direction;
+      if (nextIndex >= 0 && nextIndex < items.length) {
+        handleScroll(direction);
+      } else {
+        // Snap back if out of bounds
+        controls.start({
+          y: -currentIndex * window.innerHeight,
+          transition: { type: "spring", stiffness: 400, damping: 40 }
+        });
+      }
+    } else {
+      // Snap back to current if movement wasn't significant
+      controls.start({
+        y: -currentIndex * window.innerHeight,
+        transition: { type: "spring", stiffness: 400, damping: 40 }
+      });
+    }
+    setIsDragging(false);
+  };
+
   return (
-    <div className="feed-wrapper" id="scrollableDiv">
+    <div className="feed-wrapper" ref={dragConstraintsRef}>
       <div className="feed-header-overlay">
         <motion.button
           className="back-button"
@@ -213,141 +237,169 @@ export const Feed = ({ onClose }: FeedProps) => {
         scrollThreshold="200px"
         style={{ overflow: 'unset' }}
       >
-        <div 
-          className="feed-container" 
+        <motion.div 
+          className="feed-container"
           ref={containerRef}
+          animate={controls}
+          initial={{ y: 0 }}
+          drag="y"
+          dragConstraints={dragConstraintsRef}
+          dragElastic={0.2}
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={handleDragEnd}
           style={{ 
             height: '100vh',
-            overflowY: 'auto',
-            scrollSnapType: 'y mandatory'
+            position: 'fixed',
+            width: '100%',
+            top: 0,
+            touchAction: 'none'
           }}
         >
-          {items.map((item, _) => (
-            <div
+          {items.map((item, index) => (
+            <motion.div
               key={item.id}
-              className={`feed-item ${isTransitioning ? 'transitioning' : ''}`}
+              className="feed-item"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: Math.abs(currentIndex - index) <= 1 ? 1 : 0,
+                scale: currentIndex === index ? 1 : 0.95,
+                filter: isDragging ? 'brightness(0.8)' : 'brightness(1)'
+              }}
+              transition={{
+                opacity: { duration: 0.3 },
+                scale: { type: "spring", stiffness: 300, damping: 30 },
+                filter: { duration: 0.2 }
+              }}
+              style={{
+                position: 'absolute',
+                top: `${index * 100}vh`,
+                width: '100%',
+                height: '100vh'
+              }}
             >
-              <div className="feed-media-container">
-                <img 
-                  src={item.url}
-                  alt={item.caption}
-                  className="feed-media"
-                  loading="lazy"
-                />
-              </div>
-              <div className="feed-overlay">
-                <div className="feed-user-info">
-                  <div className="feed-user-meta">
-                    <img src={item.avatar} alt={item.username} className="feed-avatar" />
-                    <span className="feed-username">{item.username}</span>
+              <div className="feed-content-wrapper">
+                <div className="feed-media-container">
+                  <img 
+                    src={item.url}
+                    alt={item.caption}
+                    className="feed-media"
+                    loading="lazy"
+                  />
+                  <div className="feed-actions">
+                    <motion.button
+                      className="action-button"
+                      onClick={() => handleLike(item.id.toString())}
+                    >
+                      {useFeedStore.getState().likes[item.id.toString()] ? 
+                        <AiFillHeart className="liked" size={28} /> : 
+                        <AiOutlineHeart size={28} />
+                      }
+                      <span>{getLikeCount(item.id.toString(), item.likes)}</span>
+                    </motion.button>
+
+                    <motion.button
+                      className="action-button"
+                      onClick={() => setShowComments(true)}
+                    >
+                      <FaRegComment />
+                      <span>
+                        {getComments(item.id.toString(), item.comments).length}
+                      </span>
+                    </motion.button>
+
+                    <motion.button
+                      className="action-button"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setIsSaved(!isSaved)}
+                    >
+                      {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
+                    </motion.button>
+
+                    <motion.button
+                      className="action-button"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FaShare />
+                    </motion.button>
                   </div>
                 </div>
-                <div className="feed-caption-wrapper">
-                  <div className="feed-caption-container">
-                    <div className={`feed-caption ${!expandedCaptions.has(item.id) ? 'truncated' : ''}`}>
-                      {item.caption}
+                <div className="feed-overlay">
+                  <div className="feed-user-info">
+                    <div className="feed-user-meta">
+                      <img src={item.avatar} alt={item.username} className="feed-avatar" />
+                      <span className="feed-username">{item.username}</span>
                     </div>
-                    {item.caption.length > 100 && (
-                      <button 
-                        className="caption-more"
-                        onClick={() => toggleCaption(item.id)}
-                      >
-                        {expandedCaptions.has(item.id) ? 'less' : 'more'}
-                      </button>
-                    )}
+                  </div>
+                  <div className="feed-caption-wrapper">
+                    <div className="feed-caption-container">
+                      <div className={`feed-caption ${!expandedCaptions.has(item.id) ? 'truncated' : ''}`}>
+                        {item.caption}
+                      </div>
+                      {item.caption.length > 100 && (
+                        <button 
+                          className="caption-more"
+                          onClick={() => toggleCaption(item.id)}
+                        >
+                          {expandedCaptions.has(item.id) ? 'less' : 'more'}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
+                <AnimatePresence>
+                  {showComments && (
+                    <motion.div
+                      className="comments-overlay"
+                      initial={{ y: '100%' }}
+                      animate={{ y: 0 }}
+                      exit={{ y: '100%' }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="comments-header">
+                        <h3 className="comments-title">Comments</h3>
+                        <motion.button
+                          className="close-button"
+                          onClick={() => setShowComments(false)}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <IoClose size={24} />
+                        </motion.button>
+                      </div>
+                      <div className="comments-section">
+                        {getComments(item.id.toString(), item.comments)
+                          .map((comment, idx) => (
+                            <div key={idx} className="comment">
+                              <strong>{comment.user}:</strong> {comment.text}
+                            </div>
+                          ))}
+                      </div>
+                      <div className="comment-input-container">
+                        <form onSubmit={handleCommentSubmit} className="comment-form">
+                          <input 
+                            type="text" 
+                            value={newComment} 
+                            onChange={(e) => setNewComment(e.target.value)} 
+                            placeholder="Add a comment..." 
+                            className="comment-input"
+                          />
+                          <button type="submit" className="comment-submit">Post</button>
+                        </form>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div className="feed-actions">
-                <motion.button
-                  className="action-button"
-                  onClick={() => handleLike(item.id.toString())}
-                >
-                  {useFeedStore.getState().likes[item.id.toString()] ? 
-                    <AiFillHeart className="liked" size={28} /> : 
-                    <AiOutlineHeart size={28} />
-                  }
-                  <span>{getLikeCount(item.id.toString(), item.likes)}</span>
-                </motion.button>
-
-                <motion.button
-                  className="action-button"
-                  onClick={() => setShowComments(true)}
-                >
-                  <FaRegComment />
-                  <span>
-                    {getComments(item.id.toString(), item.comments).length}
-                  </span>
-                </motion.button>
-
-                <motion.button
-                  className="action-button"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setIsSaved(!isSaved)}
-                >
-                  {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
-                </motion.button>
-
-                <motion.button
-                  className="action-button"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <FaShare />
-                </motion.button>
-              </div>
-              <AnimatePresence>
-                {showComments && (
-                  <motion.div
-                    className="comments-overlay"
-                    initial={{ y: '100%' }}
-                    animate={{ y: 0 }}
-                    exit={{ y: '100%' }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="comments-header">
-                      <h3 className="comments-title">Comments</h3>
-                      <motion.button
-                        className="close-button"
-                        onClick={() => setShowComments(false)}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <IoClose size={24} />
-                      </motion.button>
-                    </div>
-                    <div className="comments-section">
-                      {getComments(item.id.toString(), item.comments)
-                        .map((comment, idx) => (
-                          <div key={idx} className="comment">
-                            <strong>{comment.user}:</strong> {comment.text}
-                          </div>
-                        ))}
-                    </div>
-                    <div className="comment-input-container">
-                      <form onSubmit={handleCommentSubmit} className="comment-form">
-                        <input 
-                          type="text" 
-                          value={newComment} 
-                          onChange={(e) => setNewComment(e.target.value)} 
-                          placeholder="Add a comment..." 
-                          className="comment-input"
-                        />
-                        <button type="submit" className="comment-submit">Post</button>
-                      </form>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
           {isLoading && (
             <div className="feed-loading">
               Loading more...
             </div>
           )}
-        </div>
+        </motion.div>
       </InfiniteScroll>
     </div>
   );
