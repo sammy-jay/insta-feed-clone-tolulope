@@ -111,28 +111,6 @@ export const Feed = ({ onClose }: FeedProps) => {
     setTouchEnd(e.targetTouches[0].clientY);
   };
 
-  const handleScroll = async (direction: number) => {
-    if (!containerRef.current) return;
-    
-    const nextIndex = currentIndex + direction;
-    if (nextIndex >= 0 && nextIndex < items.length) {
-      setIsTransitioning(true);
-      
-      await controls.start({
-        y: -nextIndex * window.innerHeight,
-        transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-          mass: 0.8
-        }
-      });
-      
-      setCurrentIndex(nextIndex);
-      setIsTransitioning(false);
-    }
-  };
-
   const handleTouchEnd = () => {
     const diff = touchStart - touchEnd;
     const threshold = window.innerHeight * 0.2;
@@ -156,7 +134,28 @@ export const Feed = ({ onClose }: FeedProps) => {
         container.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [touchStart, touchEnd, currentIndex, items.length]);
+  }, [touchStart, touchEnd]);
+
+  const handleScroll = async (direction: number) => {
+    if (!containerRef.current) return;
+    
+    const nextIndex = currentIndex + direction;
+    if (nextIndex >= 0 && nextIndex < items.length) {
+      setIsTransitioning(true);
+      
+      await controls.start({
+        y: -nextIndex * window.innerHeight,
+        transition: {
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }
+      });
+      
+      setCurrentIndex(nextIndex);
+      setIsTransitioning(false);
+    }
+  };
 
   const handleLike = (id: string) => {
     const isCurrentlyLiked = useFeedStore.getState().likes[id] || false;
@@ -243,7 +242,7 @@ export const Feed = ({ onClose }: FeedProps) => {
           animate={controls}
           initial={{ y: 0 }}
           drag="y"
-          dragConstraints={dragConstraintsRef}
+          dragConstraints={{ top: 0, bottom: 0 }}
           dragElastic={0.2}
           onDragStart={() => setIsDragging(true)}
           onDragEnd={handleDragEnd}
@@ -272,9 +271,9 @@ export const Feed = ({ onClose }: FeedProps) => {
               }}
               style={{
                 position: 'absolute',
-                top: `${index * 100}vh`,
+                top: `${index * 95}vh`,
                 width: '100%',
-                height: '100vh'
+                height: '95vh'
               }}
             >
               <div className="feed-content-wrapper">

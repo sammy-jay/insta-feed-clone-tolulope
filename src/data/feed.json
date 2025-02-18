@@ -17,20 +17,6 @@
     {
       "id": 2,
       "type": "image",
-      "url": "https://images.unsplash.com/photo-1587223075055-82e9a937ddff?w=800",
-      "username": "alex.captures",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-      "caption": "Sunday vibes in Bali 🌊 Nothing beats the sound of waves and the feeling of sand between your toes. Found this hidden beach after a 2-hour hike and it was totally worth it! #BaliLife #IslandVibes #Paradise",
-      "likes": 2389,
-      "comments": [
-        { "user": "wanderlust_soul", "text": "Adding this to my bucket list! 🏖️" },
-        { "user": "travel.diary", "text": "The colors in this shot are incredible! 🌅" }
-      ],
-      "saved": false
-    },
-    {
-      "id": 3,
-      "type": "image",
       "url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
       "username": "sophia.style",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
@@ -43,7 +29,7 @@
       "saved": false
     },
     {
-      "id": 4,
+      "id": 3,
       "type": "image",
       "url": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=800",
       "username": "david.creates",
