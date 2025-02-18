@@ -359,7 +359,7 @@ body {
 
   /* TODO: */
   .feed-media-container {
-    max-height: calc(100% - 220px);
+    max-height: calc(100% - 250px);
   }
   
 
