@@ -256,9 +256,9 @@ export const Feed = ({ onClose }: FeedProps) => {
           }}
         >
           {items.map((item, index) => (
-            <motion.div
+              <motion.div
               key={item.id}
-              className="feed-item"
+                className="feed-item"
               initial={{ opacity: 0 }}
               animate={{ 
                 opacity: Math.abs(currentIndex - index) <= 1 ? 1 : 0,
@@ -279,15 +279,15 @@ export const Feed = ({ onClose }: FeedProps) => {
             >
               <div className="feed-content-wrapper">
                 <div className="feed-media-container">
-                  <img 
-                    src={item.url}
-                    alt={item.caption}
-                    className="feed-media"
+                <img 
+                  src={item.url}
+                  alt={item.caption}
+                  className="feed-media"
                     loading="lazy"
                   />
-                  <div className="feed-actions">
-                    <motion.button
-                      className="action-button"
+                <div className="feed-actions">
+                  <motion.button
+                    className="action-button"
                       onClick={() => handleLike(item.id.toString())}
                     >
                       {useFeedStore.getState().likes[item.id.toString()] ? 
@@ -295,34 +295,34 @@ export const Feed = ({ onClose }: FeedProps) => {
                         <AiOutlineHeart size={28} />
                       }
                       <span>{getLikeCount(item.id.toString(), item.likes)}</span>
-                    </motion.button>
+                  </motion.button>
 
-                    <motion.button
-                      className="action-button"
+                  <motion.button
+                    className="action-button"
                       onClick={() => setShowComments(true)}
-                    >
-                      <FaRegComment />
+                  >
+                    <FaRegComment />
                       <span>
                         {getComments(item.id.toString(), item.comments).length}
                       </span>
-                    </motion.button>
+                  </motion.button>
 
-                    <motion.button
-                      className="action-button"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setIsSaved(!isSaved)}
-                    >
-                      {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
-                    </motion.button>
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setIsSaved(!isSaved)}
+                  >
+                    {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
+                  </motion.button>
 
-                    <motion.button
-                      className="action-button"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <FaShare />
-                    </motion.button>
+                  <motion.button
+                    className="action-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <FaShare />
+                  </motion.button>
                   </div>
                 </div>
                 <div className="feed-overlay">
@@ -371,10 +371,10 @@ export const Feed = ({ onClose }: FeedProps) => {
                       <div className="comments-section">
                         {getComments(item.id.toString(), item.comments)
                           .map((comment, idx) => (
-                            <div key={idx} className="comment">
-                              <strong>{comment.user}:</strong> {comment.text}
-                            </div>
-                          ))}
+                          <div key={idx} className="comment">
+                            <strong>{comment.user}:</strong> {comment.text}
+                          </div>
+                        ))}
                       </div>
                       <div className="comment-input-container">
                         <form onSubmit={handleCommentSubmit} className="comment-form">
@@ -392,12 +392,12 @@ export const Feed = ({ onClose }: FeedProps) => {
                   )}
                 </AnimatePresence>
               </div>
-            </motion.div>
+              </motion.div>
           ))}
           {isLoading && (
             <div className="feed-loading">
               Loading more...
-            </div>
+        </div>
           )}
         </motion.div>
       </InfiniteScroll>
