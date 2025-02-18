@@ -14,6 +14,7 @@ interface BottomNavProps {
   onFeedToggle: () => void;
 }
 
+
 export const BottomNav = ({ showFeed, onFeedToggle }: BottomNavProps) => {
   const [activeTab, setActiveTab] = useState('home');
   const navigate = useNavigate();
