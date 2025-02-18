@@ -9,14 +9,20 @@ import { Feed } from '../pages/Feed';
 
 export const Home = () => {
   const [showFeed, setShowFeed] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleCloseFeed = () => {
     setShowFeed(false);
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+  };
+
   return (
     <div className="app">
-      {!showFeed && <Header stories={storiesData.stories} />}
+      {!showFeed && <Header stories={storiesData.stories} toggleTheme={toggleTheme} isDarkMode={isDarkMode} />}
       <main className={`main-content ${showFeed ? 'feed-mode' : ''}`}>
         {showFeed ? (
           <Feed onClose={handleCloseFeed} />

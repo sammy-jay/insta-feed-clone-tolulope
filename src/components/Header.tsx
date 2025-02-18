@@ -3,6 +3,8 @@ import { FiMessageCircle } from 'react-icons/fi'
 import '../styles/Header.css'
 import { motion } from 'framer-motion'
 import { Story } from './Story'
+import React from 'react'
+import ThemeToggle from './ThemeToggle'
 
 interface HeaderProps {
   stories: {
@@ -12,9 +14,11 @@ interface HeaderProps {
     isOwn?: boolean;
     hasStory?: boolean;
   }[];
+  toggleTheme: () => void;
+  isDarkMode: boolean;
 }
 
-export const Header = ({ stories }: HeaderProps) => {
+export const Header: React.FC<HeaderProps> = ({ stories, toggleTheme, isDarkMode }) => {
   return (
     <header className="header">
       <div className="header-top">
@@ -34,6 +38,7 @@ export const Header = ({ stories }: HeaderProps) => {
               <FiMessageCircle className="icon" />
               <span className="notification-badge">1</span>
             </div>
+            <ThemeToggle toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
           </div>
         </div>
       </div>
@@ -52,4 +57,4 @@ export const Header = ({ stories }: HeaderProps) => {
       </div>
     </header>
   )
-} 
+}
